@@ -16,14 +16,10 @@ before_install:
   - sudo mv ./kubectl /usr/local/bin/kubectl
 
 install:
-  - echo `hello udacity`
+  - docker-compose -f course-03/exercises/udacity-c3-deployment/docker/docker-compose-build.yaml build --parallel 
 
-# install:
-#   - docker-compose -f udacity-c3-deployment/docker/docker-compose-build.yaml build --parallel 
-
-# deploy:
-#   skip_cleanup: true
-#   provider: script
-#   script: bash ./udacity-c3-deployment/docker_deploy.sh
-#   on:
-#     branch: master
+deploy:
+  - provider: script
+    script: bash course-03/exercises/udacity-c3-deployment/docker-publish.sh
+    on:
+      branch: travis-config
