@@ -19,7 +19,8 @@ install:
   - docker-compose -f course-03/exercises/udacity-c3-deployment/docker/docker-compose-build.yaml build --parallel 
 
 deploy:
-  - provider: script
-    script: bash course-03/exercises/udacity-c3-deployment/docker-publish.sh
-    on:
-      branch: travis-config
+  skip-cleanup: true
+  provider: script
+  script: bash course-03/exercises/udacity-c3-deployment/docker-publish.sh
+  on:
+    branch: travis-config
