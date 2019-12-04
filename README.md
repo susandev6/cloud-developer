@@ -17,6 +17,7 @@ In addition, there are 4 screenshots:
 1. Docker_hub_images - docker hub images screenshot.
 2. Kubectl_get_pod - shows all the running container.
 3. Travis_CI_success_1 and Travis_CI_success_2 - show the travis CI successful build and deployment.
+4. AWS_cloudwatch - shows the AWS cloudwatch screenshot.
 
 The travis.yml file is located in the root directory of the project.
 
