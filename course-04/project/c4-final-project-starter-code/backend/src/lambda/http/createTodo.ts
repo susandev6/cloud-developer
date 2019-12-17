@@ -5,7 +5,6 @@ import * as AWS from 'aws-sdk'
 import * as uuid from 'uuid'
 
 import { CreateTodoRequest } from '../../requests/CreateTodoRequest'
-import { json } from 'express'
 
 const docClient = new AWS.DynamoDB.DocumentClient()
 
