@@ -18,6 +18,7 @@ provider:
     AUTH_0_SECRET: fjsfjsfjsdofdsfjssjfdosfjs
     S3_BUCKET: serverless-todo-app-susanwang-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
+    AUTH_0_SECRET: N4zwHiwnuF4dGyfQom47cQUYB8C1kyWRh19fon4gR1hd1ttt-NCEaTcnhMWYn6Uw
 
   iamRoleStatements:
     - Effect: Allow
@@ -49,6 +50,7 @@ functions:
           method: get
           path: todos
           cors: true
+          authorizer: Auth
 
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
@@ -57,6 +59,7 @@ functions:
           method: post
           path: todos
           cors: true
+          authorizer: Auth
 
   UpdateTodo:
     handler: src/lambda/http/updateTodo.handler
@@ -65,6 +68,7 @@ functions:
           method: patch
           path: todos/{todoId}
           cors: true
+          authorizer: Auth
 
   DeleteTodo:
     handler: src/lambda/http/deleteTodo.handler
@@ -73,8 +77,8 @@ functions:
           method: delete
           path: todos/{todoId}
           cors: true
+          authorizer: Auth
 
-  # TODO: Configure this function
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
     events:
@@ -85,6 +89,17 @@ functions:
 
 resources:
   Resources:
+    GatewayResponseDefault4XX:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: ApiGatewayRestApi
+
     TodosTable:
       Type: AWS::DynamoDB::Table
       Properties:
