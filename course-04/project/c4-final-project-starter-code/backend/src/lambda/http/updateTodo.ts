@@ -1,4 +1,3 @@
-import { update } from 'immutability-helper';
 import 'source-map-support/register'
 
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
