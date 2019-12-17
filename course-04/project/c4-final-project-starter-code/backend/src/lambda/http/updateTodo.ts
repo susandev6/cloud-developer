@@ -1,3 +1,4 @@
+import { update } from 'immutability-helper';
 import 'source-map-support/register'
 
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
@@ -13,14 +14,18 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   const todoId = event.pathParameters.todoId
   const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
 
-  const item = {
-    id: todoId,
-    ...updatedTodo
-  }
-
-  await docClient.put({
+  await docClient.update({
     TableName: todosTable,
-    Item: item
+    Key: {
+      todoId: todoId
+    },
+    UpdateExpression: "set name = :a, dueDate = :b, done = :c",
+    ExpressionAttributeValues: {
+      ":a": updatedTodo.name,
+      ":b": updatedTodo.dueDate,
+      ":c": updatedTodo.dueDate
+    },
+    ReturnValues: "UPDATED_NEW"
   }).promise()
 
   return {
@@ -28,8 +33,6 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     headers: {
       'Access-Control-Allow-Origin': '*'
     },
-    body: JSON.stringify({
-      item
-    })
+    body: ''
   }
 }

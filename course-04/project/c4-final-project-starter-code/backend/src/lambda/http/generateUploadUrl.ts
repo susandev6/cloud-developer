@@ -26,14 +26,14 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   await docClient.update({
     TableName: todosTable,
     Key: {
-      id: todoId
+      todoId: todoId
     },
     UpdateExpression: "set attachmentUrl = :a",
     ExpressionAttributeValues:{
       ":a": imageUrl
     },
-    ReturnValues:"UPDATED_NEW"
-  })
+    ReturnValues: "UPDATED_NEW"
+  }).promise()
 
   return {
     statusCode: 201,
