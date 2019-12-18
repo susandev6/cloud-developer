@@ -50,7 +50,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 function getUploadUrl(imageId: string) {
   return s3.getSignedUrl('putObject', {
     Bucket: bucketName,
-    key: imageId,
-    Expires: urlExpiration
+    Key: imageId,
+    Expires: +urlExpiration
   })
 }

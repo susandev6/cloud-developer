@@ -19,6 +19,8 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   const item = {
     todoId: todoId,
     userId: userId,
+    createdAt: new Date().toISOString(),
+    done: false,
     ...newTodo
   }
 
