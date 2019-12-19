@@ -1,11 +1,14 @@
 import * as AWS from 'aws-sdk'
+import * as AWSXRay from 'aws-xray-sdk'
 import { DocumentClient } from "aws-sdk/clients/dynamodb"
 import { TodoItem } from '../models/TodoItem'
 import { TodoUpdate } from '../models/TodoUpdate'
 
+const XAWS = AWSXRay.captureAWS(AWS)
+
 export class TodoAccess {
     constructor(
-        private readonly docClient: DocumentClient = new AWS.DynamoDB.DocumentClient(),
+        private readonly docClient: DocumentClient = new XAWS.DynamoDB.DocumentClient(),
         private readonly todosTable = process.env.TODOS_TABLE,
         private readonly userIndex = process.env.USER_ID_INDEX,
         private readonly s3 = new AWS.S3({
@@ -77,7 +80,9 @@ export class TodoAccess {
         })
     }
 
-    async updateTodoWithImageUrl(todoId: string, userId: string, imageUrl: string) {
+    async updateTodoWithImageUrl(todoId: string, userId: string, imageId: string) {
+        const imageUrl = `https://${this.bucketName}.s3.amazonaws.com/${imageId}`
+
         await this.docClient.update({
             TableName: this.todosTable,
             Key: {
