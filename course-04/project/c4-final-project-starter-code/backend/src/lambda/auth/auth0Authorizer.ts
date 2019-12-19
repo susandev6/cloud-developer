@@ -10,7 +10,6 @@ import { secretsManager } from 'middy/middlewares'
 
 const logger = createLogger('auth')
 
-// const auth0Secret = process.env.AUTH_0_SECRET
 const secretId = process.env.AUTH_0_SECRET_ID
 const secretField = process.env.AUTH_0_SECRET_FIELD
 
