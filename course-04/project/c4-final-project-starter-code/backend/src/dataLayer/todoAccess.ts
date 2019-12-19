@@ -77,7 +77,9 @@ export class TodoAccess {
         })
     }
 
-    async updateTodoWithImageUrl(todoId: string, userId: string, imageUrl: string) {
+    async updateTodoWithImageUrl(todoId: string, userId: string, imageId: string) {
+        const imageUrl = `https://${this.bucketName}.s3.amazonaws.com/${imageId}`
+        
         await this.docClient.update({
             TableName: this.todosTable,
             Key: {

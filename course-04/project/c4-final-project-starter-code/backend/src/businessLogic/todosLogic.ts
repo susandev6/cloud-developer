@@ -4,7 +4,6 @@ import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { TodoItem } from '../models/TodoItem'
 
-const bucketName = process.env.S3_BUCKET
 const todoAccess = new TodoAccess()
 
 export async function createTodo(
@@ -40,8 +39,7 @@ export async function deleteTodo(todoId: string, userId: string) {
 export async function generateUploadUrl(todoId: string, userId: string): Promise<string> {
     const imageId = uuid.v4()
     const url = todoAccess.getUploadUrl(imageId)
-    const imageUrl = `https://${bucketName}.s3.amazonaws.com/${imageId}`
 
-    await todoAccess.updateTodoWithImageUrl(todoId, userId, imageUrl)
+    await todoAccess.updateTodoWithImageUrl(todoId, userId, imageId)
     return url
 }
