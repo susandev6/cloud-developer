@@ -18,12 +18,11 @@ export const handler = async (
   event: CustomAuthorizerEvent
 ): Promise<CustomAuthorizerResult> => {
   logger.info('Authorizing a user', event.authorizationToken)
-  console.log('walalalal', event)
+
   try {
     const jwtToken = verifyToken(
       event.authorizationToken)
     logger.info('User was authorized', jwtToken)
-    console.log('user authorized', jwtToken)
 
     return {
       principalId: jwtToken.sub,
@@ -40,7 +39,6 @@ export const handler = async (
     }
   } catch (e) {
     logger.error('User not authorized', { error: e.message })
-    console.log('We have error!!', e)
 
     return {
       principalId: 'user',
